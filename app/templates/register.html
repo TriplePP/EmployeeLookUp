@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block register %}class="nav-link active"{% endblock %}
+{% block home %}class="nav-link" href="/"{% endblock %}
+
+{% block content %}
+
+    <div class="container-sm">
+        <form method="POST" action="/register">
+            <h3 class="text-center p-3">Sign up as a new user</h3>
+            <div {% if form.email.errors %} class="form-group error" {% else %} class="form-group" {% endif %}>
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter first name">
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter last name">
+            </div>
+            <div class="form-group">
+                <label for="password1">Password</label>
+                <input type="password" class="form-control" id="password" name="password"
+                       placeholder="Enter password">
+            </div>
+            <div class="form-group">
+                <label for="password2">Confirm Password</label>
+                <input type="password" class="form-control" id="password2" name="password2"
+                       placeholder="Retype password">
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-warning m-2 px-4">Submit</button>
+            </div>
+
+        </form>
+    </div>
+
+{% endblock %}
