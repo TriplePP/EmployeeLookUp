@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 
-from app import bcrypt, db
-from app.forms import RegistrationForm
-from app.models import User
+from website import bcrypt, db
+from website.forms import RegistrationForm
+from website.models import User
 
 main = Blueprint('main', __name__)
 

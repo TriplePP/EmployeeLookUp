@@ -1,10 +1,16 @@
 from flask import Flask
+from flask_login import LoginManager
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from config import Config
+from flask_wtf import CSRFProtect
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
+login_manager = LoginManager()
+csrf = CSRFProtect()
+migrate = Migrate()
 DB_NAME = "database.db"
 
 
@@ -16,11 +22,13 @@ def create_app():
 
     db.init_app(app)
     bcrypt.init_app(app)
+    # csrf.init_app(app)
+    migrate.init_app(app, db)
 
-    from app.routes import main as main_blueprint
+    from website.routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
-    with app.app_context():
-        db.create_all()
+    # with website.app_context():
+    #     db.create_all()
 
     return app

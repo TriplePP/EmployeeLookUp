@@ -1,7 +1,10 @@
-Flask
+Flask~=3.0.3
 Flask-SQLAlchemy
-Flask-Bcrypt
-Flask-Login
+Flask-Bcrypt~=1.0.1
+Flask-Login~=0.6.3
 flask_wtf
 email_validator
-Flask-Migrate
+Flask-Migrate~=4.0.7
+
+WTForms~=3.1.2
+config~=0.5.1
