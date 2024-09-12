@@ -1,6 +1,88 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2 class="text-center p-3">Welcome User!, view and edit your details below</h2>
+    <h2 class="text-center p-2">Welcome {{ user.first_name }}!</h2>
+    <h3 class="text-center p-2">View and edit your details below</h3>
+    <p class="text-center p-2">Add values to the fields you wish to change and click submit (empty fields will not be
+        changed).</p>
+
+
+    <container class="container">
+        <form method="POST" action="/home" class="d-flex justify-content-center flex-column">
+            <table class="table table-bordered text-center w-50 mx-auto">
+                <tr>
+                    <td class="table-primary">First Name</td>
+                    <td class="table-light">{{ user.first_name }}</td>
+                    <td class="table-light">
+                        <input type="text" id="first_name" name="first_name" placeholder="Enter new first name">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="table-primary">Last Name</td>
+                    <td class="table-light">{{ user.last_name }}</td>
+                    <td class="table-light">
+                        <input type="text" id="last_name" name="last_name" placeholder="Enter new last name">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-primary">Email</td>
+                    <td class="table-light">{{ user.email }}</td>
+                    <td class="table-light">
+                        <input type="email" id="email" name="email" placeholder="Enter new email">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-primary">Phone number</td>
+                    <td class="table-light">{{ user.contact_number }}</td>
+                    <td class="table-light">
+                        <input type="text" id="contact_number" name="contact_number"
+                               placeholder="Enter new phone number">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-primary">Job Role</td>
+                    <td class="table-light">
+                        {% for job in jobs %}
+                            {% if job.id == user.job_id %}
+                                {{ job.job_title }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td class="table-light">
+                        {#                        <label for="job_title">Please select job role</label>#}
+                        <select name="job_title" id="job_title">
+                            <option label="" disabled selected>
+                            <option label={{ job_roles.SOFTWARE_ENGINEER.value }}>Software Engineer</option>
+                            <option label={{ job_roles.PRODUCT_MANAGER.value }}>Product Manager</option>
+                            <option label={{ job_roles.SENIOR_SOFTWARE_ENGINEER.value }}>Senior Software Engineer
+                            </option>
+                            <option label={{ job_roles.TEAM_MANAGER.value }}>Team Manager</option>
+                            <option label={{ job_roles.UX_DESIGNER.value }}>UX Designer</option>
+                            <option label={{ job_roles.CHIEF_TECHNOLOGY_OFFICER.value }}>Chief Technology Officer
+                            </option>
+                            <option label={{ job_roles.HUMAN_RESOURCES_MANAGER.value }}>Human Resources Manager</option>
+                            <option label={{ job_roles.MARKETING_DIRECTOR.value }}>Marketing Director</option>
+                            <option label={{ job_roles.IT_SUPPORT_SPECIALIST.value }}>IT Support Specialist</option>
+                            <option label={{ job_roles.DATA_ANALYST.value }}>Data Analyst</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-primary">Base Salary</td>
+                    <td class="table-light">
+                        {% for job in jobs %}
+                            {% if job.id == user.job_id %}
+                                {{ job.base_salary }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+            </table>
+            <button type="submit" class="btn btn-secondary px-4 mx-auto">Submit</button>
+        </form>
+
+    </container>
+    <script type="text/javascript" src="{{ url_for('static', filename='home-page.js') }}"></script>
+
 
 {% endblock %}

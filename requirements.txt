@@ -3,6 +3,7 @@ Flask-SQLAlchemy
 Flask-Bcrypt~=1.0.1
 Flask-Login~=0.6.3
 flask_wtf
+gunicorn
 email_validator
 Flask-Migrate~=4.0.7
 
