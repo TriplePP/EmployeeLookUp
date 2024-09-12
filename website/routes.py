@@ -15,30 +15,11 @@ main = Blueprint('main', __name__)
 @main.route("/home", methods=['GET', 'POST'])
 @login_required
 def home():
-    print(current_user.id)
     if request.method == "POST":
         user = User.query.filter_by(id=current_user.id).first()
-        new_first_name = request.form['first_name']
-        new_last_name = request.form['last_name']
-        new_email = request.form['email']
-        new_contact_number = request.form['contact_number']
-        job_title = request.form['job_title']
-        job = Job.query.filter_by(job_title=job_title).first()
-        job_id = job.id
-        if new_first_name:
-            user.first_name = new_first_name
-        if new_last_name:
-            user.last_name = new_last_name
-        if new_email:
-            user.email = new_email
-        if new_contact_number:
-            user.contact_number = new_contact_number
-        if job_title:
-            user.job_id = job_id
-        db.session.commit()
+        update_user(user)
         return redirect(url_for('main.home'))
-
-    return render_template("home.html", user=current_user, job_roles=JobRoles, jobs=Job.query.all())
+    return render_template("home.html", user=current_user, job_roles=JobRoles, jobs=Job.query.all(), is_home=True)
 
 
 @main.route('/register', methods=['GET', 'POST'])
@@ -91,6 +72,8 @@ def logout():
     return redirect(url_for('main.login'))
 
 
+# The create job and delete job routes were created to add and delete jobs via the command line.
+# They are not for the user.
 @main.route('/create-job', methods=['POST'])
 def create_job():
     data = request.get_json()
@@ -115,3 +98,47 @@ def delete_job():
         return f"{job_title} deleted", 200
     else:
         return "Job not found", 404
+
+
+@main.route('/view-users', methods=['GET', 'POST'])
+def admin_tasks():
+    if not current_user.is_admin:
+        flash('Please log in as an administrator to view this page', 'error')
+        return redirect(url_for('main.login'))
+
+    return render_template('view-users.html', users=User.query.all())
+
+
+@main.route('/view-record/<int:user_id>/update', methods=['GET', 'POST'])
+def view_record(user_id: int):
+    user = User.query.filter_by(id=user_id).first()
+    if request.method == "POST":
+        update_user(user)
+        return redirect(url_for('main.view_record', user_id=user_id))
+    return render_template("home.html", user=user, job_roles=JobRoles, jobs=Job.query.all(), is_home=False)
+
+
+def update_user(user):
+    print(user)
+    print("TEST")
+    print(request)
+    print(request.form)
+    print(request.form['last_name'])
+    new_first_name = request.form['first_name']
+    new_last_name = request.form['last_name']
+    new_email = request.form['email']
+    new_contact_number = request.form['contact_number']
+    job_title = request.form['job_title']
+    if new_first_name:
+        user.first_name = new_first_name
+    if new_last_name:
+        user.last_name = new_last_name
+    if new_email:
+        user.email = new_email
+    if new_contact_number:
+        user.contact_number = new_contact_number
+    if job_title:
+        job = Job.query.filter_by(job_title=job_title).first()
+        job_id = job.id
+        user.job_id = job_id
+    db.session.commit()

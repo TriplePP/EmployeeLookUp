@@ -1,14 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2 class="text-center p-2">Welcome {{ user.first_name }}!</h2>
-    <h3 class="text-center p-2">View and edit your details below</h3>
-    <p class="text-center p-2">Add values to the fields you wish to change and click submit (empty fields will not be
-        changed).</p>
+    {% if is_home %}
+        <h2 class="text-center p-2">Welcome {{ user.first_name }}!</h2>
+        <h3 class="text-center p-2">View and edit your details below</h3>
+        <p class="text-center p-2">Add values to the fields you wish to change and click submit (empty fields will not
+            be
+            changed).</p>
+    {% else %}
+        <h2 class="text-center p-2 text-danger">This is an admin area</h2>
+        <h3 class="text-center p-2">View and edit employee details below</h3>
+    {% endif %}
 
 
     <container class="container">
-        <form method="POST" action="/home" class="d-flex justify-content-center flex-column">
+        <form method="POST"
+                {% if is_home %}
+              action="/home"
+                {% else %}
+              action="{{ url_for('main.view_record', user_id=user.id) }}"
+                {% endif %}
+              class="d-flex justify-content-center flex-column">
             <table class="table table-bordered text-center w-50 mx-auto">
                 <tr>
                     <td class="table-primary">First Name</td>
@@ -52,7 +64,7 @@
                     <td class="table-light">
                         {#                        <label for="job_title">Please select job role</label>#}
                         <select name="job_title" id="job_title">
-                            <option label="" disabled selected>
+                            <option selected></option>
                             <option label={{ job_roles.SOFTWARE_ENGINEER.value }}>Software Engineer</option>
                             <option label={{ job_roles.PRODUCT_MANAGER.value }}>Product Manager</option>
                             <option label={{ job_roles.SENIOR_SOFTWARE_ENGINEER.value }}>Senior Software Engineer
@@ -82,7 +94,7 @@
         </form>
 
     </container>
-    <script type="text/javascript" src="{{ url_for('static', filename='home-page.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
 
 
 {% endblock %}

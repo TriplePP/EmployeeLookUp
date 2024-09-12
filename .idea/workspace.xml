@@ -4,16 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2a8c9cf-bdbd-4701-9c9c-c1bb55240920" name="Changes" comment="Update registration form">
-      <change afterPath="$PROJECT_DIR$/website/static/home-page.js" afterDir="false" />
+    <list default="true" id="a2a8c9cf-bdbd-4701-9c9c-c1bb55240920" name="Changes" comment="Add database files">
+      <change afterPath="$PROJECT_DIR$/website/static/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/website/static/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/website/templates/view-users.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance/database.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/instance/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/instance/database.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/website/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/static/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/seed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/static/home-page.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/static/index.scss" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/website/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/website/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/website/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/website/templates/home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/website/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/website/templates/login.html" afterDir="false" />
@@ -27,9 +27,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Flask Main" />
-        <option value="HTML File" />
         <option value="JavaScript File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -131,7 +131,7 @@
       <workItem from="1725525456661" duration="7256000" />
       <workItem from="1725628517343" duration="24888000" />
       <workItem from="1726049751652" duration="8109000" />
-      <workItem from="1726059974439" duration="13024000" />
+      <workItem from="1726059974439" duration="37167000" />
     </task>
     <task id="LOCAL-00001" summary="Update registration form">
       <option name="closed" value="true" />
@@ -141,7 +141,31 @@
       <option name="project" value="LOCAL" />
       <updated>1725547934715</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="User home page completed">
+      <option name="closed" value="true" />
+      <created>1726127750726</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1726127750726</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add database files">
+      <option name="closed" value="true" />
+      <created>1726130995344</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1726130995344</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add database files">
+      <option name="closed" value="true" />
+      <created>1726131015662</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1726131015662</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,7 +184,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update registration form" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update registration form" />
+    <MESSAGE value="User home page completed" />
+    <MESSAGE value="Add database files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add database files" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/EmployeeLookUp$EmployeeLookUp.coverage" NAME="EmployeeLookUp Coverage Results" MODIFIED="1726049816937" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

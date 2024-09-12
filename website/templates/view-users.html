@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Admin{% endblock %}
+{% block admin %}class="nav-link active"{% endblock %}
+{% block home %}class="nav-link"{% endblock %}
+
+{% block content %}
+
+    <h2 class="text-center p-2">See all current users below</h2>
+    <container class="container p-2">
+        <table class="table table-hover w-50 mx-auto">
+            <thead>
+            <tr class="table-primary">
+                <th >Id</th>
+                <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Contact Number</th>
+                <th>Job Title</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr class="cursor-pointer">
+                    <td>{{ user.id }}</td>
+                    <td><a  href="{{ url_for('main.view_record', user_id=user.id) }}">{{ user.email }}</a></td>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                    <td>{{ user.contact_number }}</td>
+                    <td>Job goes here</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </container>
+
+{% endblock %}
