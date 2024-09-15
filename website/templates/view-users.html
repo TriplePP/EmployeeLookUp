@@ -10,7 +10,7 @@
         <table class="table table-hover w-50 mx-auto">
             <thead>
             <tr class="table-primary">
-                <th >Id</th>
+                <th>Id</th>
                 <th>Email</th>
                 <th>First Name</th>
                 <th>Last Name</th>
@@ -22,11 +22,11 @@
             {% for user in users %}
                 <tr class="cursor-pointer">
                     <td>{{ user.id }}</td>
-                    <td><a  href="{{ url_for('main.view_record', user_id=user.id) }}">{{ user.email }}</a></td>
+                    <td><a href="{{ url_for('main.view_record', user_id=user.id) }}">{{ user.email }}</a></td>
                     <td>{{ user.first_name }}</td>
                     <td>{{ user.last_name }}</td>
                     <td>{{ user.contact_number }}</td>
-                    <td>Job goes here</td>
+                    <td>{{ user.job.job_title }}
                 </tr>
             {% endfor %}
             </tbody>

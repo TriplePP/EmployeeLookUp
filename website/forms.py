@@ -10,13 +10,17 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
 
+
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
 
+
 class UpdateUserForm(FlaskForm):
     email = StringField('Email')
-    first_name = StringField('First Name')
-    last_name = StringField('Last Name')
-
+    first_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=30)])
+    last_name = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=30)])
+    skill_1 = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=30)])
+    skill_2 = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=30)])
+    skill_3 = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=30)])

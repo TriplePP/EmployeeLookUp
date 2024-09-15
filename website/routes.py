@@ -1,12 +1,16 @@
 import json
+from dataclasses import fields
+from time import process_time_ns
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_bcrypt import check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
+from sqlalchemy import and_
 
 from website import bcrypt, db
+from website.enums import JobRoles, Skills
 from website.forms import RegistrationForm, LoginForm
-from website.models import User, Job, JobRoles
+from website.models import User, Job
 
 main = Blueprint('main', __name__)
 
@@ -19,7 +23,12 @@ def home():
         user = User.query.filter_by(id=current_user.id).first()
         update_user(user)
         return redirect(url_for('main.home'))
-    return render_template("home.html", user=current_user, job_roles=JobRoles, jobs=Job.query.all(), is_home=True)
+    return render_template("home.html",
+                           user=current_user,
+                           job_roles=JobRoles,
+                           jobs=Job.query.all(),
+                           is_home=True,
+                           skills=Skills)
 
 
 @main.route('/register', methods=['GET', 'POST'])
@@ -28,9 +37,6 @@ def register():
     if request.method == "POST":
         if form.is_submitted():
             existing_user = User.query.filter_by(email=form.email.data).first()
-            job_title = request.form['job_title']
-            job = Job.query.filter_by(title=job_title).first()
-            job_id = job.id
             if existing_user:
                 flash('Email already registered', 'error')
                 return redirect(url_for('main.register'))
@@ -101,12 +107,34 @@ def delete_job():
 
 
 @main.route('/view-users', methods=['GET', 'POST'])
-def admin_tasks():
+def view_users():
     if not current_user.is_admin:
         flash('Please log in as an administrator to view this page', 'error')
         return redirect(url_for('main.login'))
-
     return render_template('view-users.html', users=User.query.all())
+
+
+@main.route('/search-users', methods=['GET', 'POST'])
+def search_users():
+    if not current_user.is_admin:
+        flash('Please log in as an administrator to view this page', 'error')
+        return redirect(url_for('main.login'))
+    if request.method == "POST":
+        skill_1 = request.form['skill_1'] if request.form['skill_1'] else ''
+        skill_2 = request.form['skill_2'] if request.form['skill_2'] else ''
+        skill_3 = request.form['skill_3'] if request.form['skill_3'] else ''
+        filtered_users = []
+        for user in User.query.all():
+            if (user.__str__().__contains__(skill_1) and
+                    user.__str__().__contains__(skill_2) and
+                    user.__str__().__contains__(skill_3)):
+                print(user)
+                filtered_users.append(user)
+        if filtered_users.__len__() == 0:
+            flash('Sorry there are no users with those skills', category='error')
+        else:
+            return render_template('search-users.html', skills=Skills, users=filtered_users)
+    return render_template('search-users.html', skills=Skills)
 
 
 @main.route('/view-record/<int:user_id>/update', methods=['GET', 'POST'])
@@ -115,28 +143,21 @@ def view_record(user_id: int):
     if request.method == "POST":
         update_user(user)
         return redirect(url_for('main.view_record', user_id=user_id))
-    return render_template("home.html", user=user, job_roles=JobRoles, jobs=Job.query.all(), is_home=False)
+    return render_template("home.html",
+                           user=user,
+                           job_roles=JobRoles,
+                           jobs=Job.query.all(),
+                           is_home=False,
+                           skills=Skills)
 
 
 def update_user(user):
-    print(user)
-    print("TEST")
-    print(request)
-    print(request.form)
-    print(request.form['last_name'])
-    new_first_name = request.form['first_name']
-    new_last_name = request.form['last_name']
-    new_email = request.form['email']
-    new_contact_number = request.form['contact_number']
+    user_fields = ['first_name', 'last_name', 'email', 'contact_number', 'skill_1', 'skill_2', 'skill_3']
+    for field in user_fields:
+        new_value = request.form[field]
+        if new_value:
+            setattr(user, field, new_value)
     job_title = request.form['job_title']
-    if new_first_name:
-        user.first_name = new_first_name
-    if new_last_name:
-        user.last_name = new_last_name
-    if new_email:
-        user.email = new_email
-    if new_contact_number:
-        user.contact_number = new_contact_number
     if job_title:
         job = Job.query.filter_by(job_title=job_title).first()
         job_id = job.id
