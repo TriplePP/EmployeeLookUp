@@ -55,28 +55,26 @@
                 <tr>
                     <td class="table-primary">Job Role</td>
                     <td class="table-light">
-                        {% for job in jobs %}
-                            {% if job.id == user.job_id %}
-                                {{ job.job_title }}
-                            {% endif %}
-                        {% endfor %}
+                        {{ user.job.job_title }}
                     </td>
                     <td class="table-light">
-                        {#                        <label for="job_title">Please select job role</label>#}
-                        <select name="job_title" id="job_title">
+                        <select name="job_title" id="job_title"
+                                {# Job title can only bed edited by Admin. So we hide it for regular Users. #}
+                                {% if is_home %}
+                                hidden
+                                {% endif %}
+                        >
                             <option selected></option>
-                            <option label={{ job_roles.SOFTWARE_ENGINEER.value }}>Software Engineer</option>
-                            <option label={{ job_roles.PRODUCT_MANAGER.value }}>Product Manager</option>
-                            <option label={{ job_roles.SENIOR_SOFTWARE_ENGINEER.value }}>Senior Software Engineer
-                            </option>
-                            <option label={{ job_roles.TEAM_MANAGER.value }}>Team Manager</option>
-                            <option label={{ job_roles.UX_DESIGNER.value }}>UX Designer</option>
-                            <option label={{ job_roles.CHIEF_TECHNOLOGY_OFFICER.value }}>Chief Technology Officer
-                            </option>
-                            <option label={{ job_roles.HUMAN_RESOURCES_MANAGER.value }}>Human Resources Manager</option>
-                            <option label={{ job_roles.MARKETING_DIRECTOR.value }}>Marketing Director</option>
-                            <option label={{ job_roles.IT_SUPPORT_SPECIALIST.value }}>IT Support Specialist</option>
-                            <option label={{ job_roles.DATA_ANALYST.value }}>Data Analyst</option>
+                            <option>{{ job_roles.SOFTWARE_ENGINEER.value }}</option>
+                            <option>{{ job_roles.PRODUCT_MANAGER.value }}</option>
+                            <option>{{ job_roles.SENIOR_SOFTWARE_ENGINEER.value }}</option>
+                            <option>{{ job_roles.TEAM_MANAGER.value }}</option>
+                            <option>{{ job_roles.UX_DESIGNER.value }}</option>
+                            <option>{{ job_roles.CHIEF_TECHNOLOGY_OFFICER.value }}</option>
+                            <option>{{ job_roles.HUMAN_RESOURCES_MANAGER.value }}</option>
+                            <option>{{ job_roles.MARKETING_DIRECTOR.value }}</option>
+                            <option>{{ job_roles.IT_SUPPORT_SPECIALIST.value }}</option>
+                            <option>{{ job_roles.DATA_ANALYST.value }}</option>
                         </select>
                     </td>
                 </tr>
@@ -89,6 +87,64 @@
                             {% endif %}
                         {% endfor %}
                     </td>
+                </tr>
+                <tr>
+                    <td class="table-success">Skill 1</td>
+                    <td class="table-light">{{ user.skill_1 }}</td>
+                    <td class="table-light">
+                        <select name="skill_1" id="skill_1">
+                            <option selected></option>
+                            <option>{{ skills.JAVA.value }}</option>
+                            <option>{{ skills.PYTHON.value }}</option>
+                            <option>{{ skills.TYPESCRIPT.value }}</option>
+                            <option>{{ skills.AWS.value }}</option>
+                            <option>{{ skills.GIT.value }}</option>
+                            <option>{{ skills.CUSTOMER_SERVICE.value }}</option>
+                            <option>{{ skills.PROJECT_MANAGEMENT.value }}</option>
+                            <option>{{ skills.GRAPHIC_DESIGN.value }}</option>
+                            <option>{{ skills.PHOTOGRAPHY.value }}</option>
+                            <option>{{ skills.DATA_ANALYTICS.value }}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-success">Skill 2</td>
+                    <td class="table-light">{{ user.skill_2 }}</td>
+                    <td class="table-light">
+                        <select name="skill_2" id="skill_2">
+                            <option selected></option>
+                            <option>{{ skills.JAVA.value }}</option>
+                            <option>{{ skills.PYTHON.value }}</option>
+                            <option>{{ skills.TYPESCRIPT.value }}</option>
+                            <option>{{ skills.AWS.value }}</option>
+                            <option>{{ skills.GIT.value }}</option>
+                            <option>{{ skills.CUSTOMER_SERVICE.value }}</option>
+                            <option>{{ skills.PROJECT_MANAGEMENT.value }}</option>
+                            <option>{{ skills.GRAPHIC_DESIGN.value }}</option>
+                            <option>{{ skills.PHOTOGRAPHY.value }}</option>
+                            <option>{{ skills.DATA_ANALYTICS.value }}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-success">Skill 3</td>
+                    <td class="table-light">{{ user.skill_3 }}</td>
+                    <td class="table-light">
+                        <select name="skill_3" id="skill_3">
+                            <option selected></option>
+                            <option>{{ skills.JAVA.value }}</option>
+                            <option>{{ skills.PYTHON.value }}</option>
+                            <option>{{ skills.TYPESCRIPT.value }}</option>
+                            <option>{{ skills.AWS.value }}</option>
+                            <option>{{ skills.GIT.value }}</option>
+                            <option>{{ skills.CUSTOMER_SERVICE.value }}</option>
+                            <option>{{ skills.PROJECT_MANAGEMENT.value }}</option>
+                            <option>{{ skills.GRAPHIC_DESIGN.value }}</option>
+                            <option>{{ skills.PHOTOGRAPHY.value }}</option>
+                            <option>{{ skills.DATA_ANALYTICS.value }}</option>
+                        </select>
+                    </td>
+                </tr>
             </table>
             <button type="submit" class="btn btn-secondary px-4 mx-auto">Submit</button>
         </form>
