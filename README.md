@@ -7,3 +7,8 @@ We have a default admin account for testing Admin functionality the login detail
 Email = admin@example.com
 Password = password
 ```
+
+To run unit tests
+```
+$ python3 -m pytest
+```

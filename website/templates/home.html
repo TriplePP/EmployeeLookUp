@@ -13,20 +13,30 @@
     {% endif %}
 
 
-    <container class="container">
+    <container class="container d-flex flex-column">
         <form method="POST"
                 {% if is_home %}
               action="/home"
                 {% else %}
               action="{{ url_for('main.view_record', user_id=user.id) }}"
                 {% endif %}
-              class="d-flex justify-content-center flex-column">
-            <table class="table table-bordered text-center w-50 mx-auto">
+              class="d-flex flex-column mb-4"
+        >
+            {{ form.hidden_tag() }}
+            <table class="table table-bordered text-center mx-auto">
                 <tr>
                     <td class="table-primary">First Name</td>
                     <td class="table-light">{{ user.first_name }}</td>
                     <td class="table-light">
-                        <input type="text" id="first_name" name="first_name" placeholder="Enter new first name">
+                        {{ form.first_name(class="validate form-control", placeholder="Enter new first name") }}
+                        {% if form.first_name.errors %}
+                            <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                                {{ form.first_name.errors[0] }}
+                                <button type="button" class="close" data-dismiss="alert">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
                     </td>
 
                 </tr>
@@ -34,22 +44,45 @@
                     <td class="table-primary">Last Name</td>
                     <td class="table-light">{{ user.last_name }}</td>
                     <td class="table-light">
-                        <input type="text" id="last_name" name="last_name" placeholder="Enter new last name">
+                        {{ form.last_name(class="validate form-control", placeholder="Enter new last name") }}
+                        {% if form.last_name.errors %}
+                            <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                                {{ form.last_name.errors[0] }}
+                                <button type="button" class="close" data-dismiss="alert">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>
                     <td class="table-primary">Email</td>
                     <td class="table-light">{{ user.email }}</td>
                     <td class="table-light">
-                        <input type="email" id="email" name="email" placeholder="Enter new email">
+                        {{ form.email(class="validate form-control", placeholder="Enter new email") }}
+                        {% if form.email.errors %}
+                            <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                                {{ form.email.errors[0] }}
+                                <button type="button" class="close" data-dismiss="alert">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>
                     <td class="table-primary">Phone number</td>
                     <td class="table-light">{{ user.contact_number }}</td>
                     <td class="table-light">
-                        <input type="text" id="contact_number" name="contact_number"
-                               placeholder="Enter new phone number">
+                        {{ form.contact_number(class="validate form-control", placeholder="Enter new phone number") }}
+                        {% if form.contact_number.errors %}
+                            <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                                {{ form.contact_number.errors[0] }}
+                                <button type="button" class="close" data-dismiss="alert">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>
@@ -58,7 +91,7 @@
                         {{ user.job.job_title }}
                     </td>
                     <td class="table-light">
-                        <select name="job_title" id="job_title"
+                        <select name="job_title" id="job_title" class="form-control"
                                 {# Job title can only bed edited by Admin. So we hide it for regular Users. #}
                                 {% if is_home %}
                                 hidden
@@ -148,9 +181,20 @@
             </table>
             <button type="submit" class="btn btn-secondary px-4 mx-auto">Submit</button>
         </form>
-
+        {% if not is_home %}
+            <form action="{{ url_for('main.delete_user', user_id=user.id) }}" method="POST" class="mx-auto"
+                  onsubmit="confirmDelete(this)">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-danger px-4">DELETE USER</button>
+            </form>
+        {% endif %}
     </container>
     <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+    <script>
+        function confirmDelete(form) {
+            return confirm("Are you sure you want to delete this user?") ? form.submit() : false
+        }
+    </script>
 
 
 {% endblock %}

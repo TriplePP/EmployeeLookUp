@@ -6,6 +6,6 @@ flask_wtf
 gunicorn
 email_validator
 Flask-Migrate~=4.0.7
-
+Pytest
 WTForms~=3.1.2
 config~=0.5.1

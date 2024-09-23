@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../static/index.css">
     <link
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -30,21 +29,27 @@
                 <li class="nav-item">
                     <a {% block home %}class="nav-link active"{% endblock %} href="/">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
-                </li>
-                <li class="nav-item">
-                    <a {% block login %}class="nav-link"{% endblock %} href="/login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a {% block register %}class="nav-link"{% endblock %} href="/register">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a {% block admin %}class="nav-link"{% endblock %} href="/view-users">ViewUsers</a>
-                </li>
-                <li class="nav-item">
-                    <a {% block search_users %}class="nav-link"{% endblock %} href="/search-users">SearchUsers</a>
-                </li>
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                    {% if current_user.is_admin %}
+                        <li class="nav-item">
+                            <a {% block admin %}class="nav-link"{% endblock %} href="/view-users">ViewUsers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a {% block search_users %}class="nav-link"{% endblock %}
+                               href="/search-users">SearchUsers</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="nav-item">
+                        <a {% block login %}class="nav-link"{% endblock %} href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a {% block register %}class="nav-link"{% endblock %} href="/register">Register</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -86,6 +91,5 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"
 ></script>
-<script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
 </body>
 </html>

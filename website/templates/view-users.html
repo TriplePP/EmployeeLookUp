@@ -6,8 +6,9 @@
 {% block content %}
 
     <h2 class="text-center p-2">See all current users below</h2>
-    <container class="container p-2">
-        <table class="table table-hover w-50 mx-auto">
+
+    <container class="container d-flex flex-column">
+        <table class="table table-striped p-2">
             <thead>
             <tr class="table-primary">
                 <th>Id</th>
@@ -20,7 +21,7 @@
             </thead>
             <tbody>
             {% for user in users %}
-                <tr class="cursor-pointer">
+                <tr>
                     <td>{{ user.id }}</td>
                     <td><a href="{{ url_for('main.view_record', user_id=user.id) }}">{{ user.email }}</a></td>
                     <td>{{ user.first_name }}</td>
@@ -32,5 +33,6 @@
             </tbody>
         </table>
     </container>
+
 
 {% endblock %}

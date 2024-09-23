@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 from website import bcrypt, db
 from website.enums import JobRoles, Skills
-from website.forms import RegistrationForm, LoginForm
+from website.forms import RegistrationForm, LoginForm, UpdateUserForm, SearchUSerForm
 from website.models import User, Job
 
 main = Blueprint('main', __name__)
@@ -14,56 +14,55 @@ main = Blueprint('main', __name__)
 @main.route("/home", methods=['GET', 'POST'])
 @login_required
 def home():
-    if request.method == "POST":
+    form = UpdateUserForm()
+    if form.validate_on_submit():
         user = User.query.filter_by(id=current_user.id).first()
         update_user(user)
-        return redirect(url_for('main.home'))
     return render_template("home.html",
                            user=current_user,
                            job_roles=JobRoles,
                            jobs=Job.query.all(),
                            is_home=True,
-                           skills=Skills)
+                           skills=Skills,
+                           form=form)
 
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
-    if request.method == "POST":
-        if form.is_submitted():
-            existing_user = User.query.filter_by(email=form.email.data).first()
-            if existing_user:
-                flash('Email already registered', 'error')
-                return redirect(url_for('main.register'))
+    if form.validate_on_submit():
+        existing_user = User.query.filter_by(email=form.email.data).first()
+        if existing_user:
+            flash('Email already registered', 'error')
+            return redirect(url_for('main.register'))
 
-            encrypted_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-            new_user = User(
-                first_name=form.first_name.data,
-                last_name=form.last_name.data,
-                email=form.email.data,
-                password=encrypted_password)
-            db.session.add(new_user)
-            db.session.commit()
-            flash('You have successfully registered! You can now log in', category='success')
-            return redirect(url_for('main.login'))
+        encrypted_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        new_user = User(
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            email=form.email.data,
+            password=encrypted_password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('You have successfully registered! You can now log in', category='success')
+        return redirect(url_for('main.login'))
     return render_template("register.html", form=form)
 
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if request.method == "POST":
-        if form.is_submitted():
-            existing_user = User.query.filter_by(email=form.email.data).first()
-            if existing_user:
-                if check_password_hash(existing_user.password, form.password.data):
-                    login_user(existing_user)
-                    flash('You have successfully logged in', category='success')
-                    return redirect(url_for('main.home'))
-                else:
-                    flash('Incorrect password', category='error')
+    if form.validate_on_submit():
+        existing_user = User.query.filter_by(email=form.email.data).first()
+        if existing_user:
+            if check_password_hash(existing_user.password, form.password.data):
+                login_user(existing_user)
+                flash('You have successfully logged in', category='success')
+                return redirect(url_for('main.home'))
             else:
-                flash('Incorrect email', category='error')
+                flash('Incorrect password', category='error')
+        else:
+            flash('Incorrect email', category='error')
     return render_template("login.html", form=form)
 
 
@@ -86,6 +85,19 @@ def create_job():
     db.session.commit()
     print("Successfully added entries")
     return "added"
+
+
+@main.route('/view-record/<int:user_id>/delete', methods=['POST'])
+def delete_user(user_id: int):
+    user = User.query.get_or_404(user_id)
+    if user == current_user:
+        flash('Sorry you cannot delete your own account. Another admin will have to do this for you.', 'error')
+        return redirect(url_for('main.view_record', user_id=user_id))
+    else:
+        db.session.delete(user)
+        db.session.commit()
+        flash('User has been deleted.', 'success')
+        return redirect(url_for('main.view_users'))
 
 
 @main.route('/delete-job', methods=['DELETE'])
@@ -111,9 +123,11 @@ def view_users():
 
 @main.route('/search-users', methods=['GET', 'POST'])
 def search_users():
+    form = SearchUSerForm()
     if not current_user.is_admin:
         flash('Please log in as an administrator to view this page', 'error')
         return redirect(url_for('main.login'))
+    # Not used form validation here as the inputs are selection of set skill values which cannot be changed by the user
     if request.method == "POST":
         # Using a ternary operator here to convert null values to empty strings
         skill_1 = request.form['skill_1'] if request.form['skill_1'] else ''
@@ -121,7 +135,7 @@ def search_users():
         skill_3 = request.form['skill_3'] if request.form['skill_3'] else ''
         filtered_users = []
         for user in User.query.all():
-            # The skills above can be null values and the __contains__ method below will return true
+            # Converting the skills to empty strings means the __contains__ method below will still return true when no value is entered
             # This allows the user to leave empty fields in the search
             if (user.__str__().__contains__(skill_1) and
                     user.__str__().__contains__(skill_2) and
@@ -130,12 +144,13 @@ def search_users():
         if filtered_users.__len__() == 0:
             flash('Sorry there are no users with those skills', category='error')
         else:
-            return render_template('search-users.html', skills=Skills, users=filtered_users)
-    return render_template('search-users.html', skills=Skills)
+            return render_template('search-users.html', skills=Skills, users=filtered_users, form=form)
+    return render_template('search-users.html', skills=Skills, form=form)
 
 
 @main.route('/view-record/<int:user_id>/update', methods=['GET', 'POST'])
 def view_record(user_id: int):
+    form = UpdateUserForm()
     user = User.query.filter_by(id=user_id).first()
     if request.method == "POST":
         update_user(user)
@@ -145,7 +160,8 @@ def view_record(user_id: int):
                            job_roles=JobRoles,
                            jobs=Job.query.all(),
                            is_home=False,
-                           skills=Skills)
+                           skills=Skills,
+                           form=form)
 
 
 def update_user(user):
