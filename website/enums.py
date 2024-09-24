@@ -14,9 +14,10 @@ class JobRoles(Enum):
     IT_SUPPORT_SPECIALIST = "IT Support Specialist"
     DATA_ANALYST = "Data Analyst"
 
+
 class Skills(Enum):
     JAVA = "Java"
-    PYTHON  = "Python"
+    PYTHON = "Python"
     TYPESCRIPT = "TypeScript"
     AWS = "AWS"
     GIT = "Git"

@@ -2,9 +2,7 @@
 {% block title %}Login{% endblock %}
 {% block login %}class="nav-link active"{% endblock %}
 {% block home %}class="nav-link"{% endblock %}
-
 {% block content %}
-
     <div class="container-sm">
         <form method="POST" action="/login">
             {{ form.hidden_tag() }}
@@ -38,5 +36,4 @@
             </div>
         </form>
     </div>
-
 {% endblock %}

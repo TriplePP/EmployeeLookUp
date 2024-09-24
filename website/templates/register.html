@@ -2,11 +2,9 @@
 {% block title %}Register{% endblock %}
 {% block register %}class="nav-link active"{% endblock %}
 {% block home %}class="nav-link" href="/"{% endblock %}
-
 {% block content %}
-
     <div class="container-sm">
-        <form method="POST" action="{{ url_for('main.register') }}">
+        <form method="POST" action="{{ url_for("main.register") }}">
             {{ form.hidden_tag() }}
             <h3 class="text-center p-3">Sign up as a new user</h3>
             <div class="form-group">
@@ -72,8 +70,6 @@
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-warning m-2 px-4">Submit</button>
             </div>
-
         </form>
     </div>
-
 {% endblock %}
