@@ -53,33 +53,32 @@
             <table class="table table-hover table-responsive">
                 {% if users %}
                     <thead>
-                        <tr>
-                            <th class="table-primary">Id</th>
-                            <th class="table-primary">Email</th>
-                            <th class="table-primary">First Name</th>
-                            <th class="table-primary">Last Name</th>
-                            <th class="table-primary">Contact Number</th>
-                            <th class="table-primary">Job Title</th>
-                            <th colspan="3" class="text-center table-success">Skills</th>
-                        </tr>
+                    <tr>
+                        <th class="table-primary">Id</th>
+                        <th class="table-primary">Email</th>
+                        <th class="table-primary">First Name</th>
+                        <th class="table-primary">Last Name</th>
+                        <th class="table-primary">Contact Number</th>
+                        <th class="table-primary">Job Title</th>
+                        <th colspan="3" class="text-center table-success">Skills</th>
+                    </tr>
                     </thead>
                 {% endif %}
                 <tbody>
-                    {% for user in users %}
-                        <tr class="cursor-pointer">
-                            <td>{{ user.id }}</td>
-                            <td>
-                                <a href="{{ url_for('main.view_record', user_id=user.id) }}">{{ user.email }}</a>
-                            </td>
-                            <td>{{ user.first_name }}</td>
-                            <td>{{ user.last_name }}</td>
-                            <td>{{ user.contact_number }}</td>
-                            <td>{{ user.skill_1 }}</td>
-                            <td>{{ user.skill_2 }}</td>
-                            <td>{{ user.skill_3 }}</td>
-                            <td>{{ user.job.job_title }}</td>
-                        </tr>
-                    {% endfor %}
+                {% for user in users %}
+                    <tr style="cursor: pointer"
+                        onclick="window.location='{{ url_for('main.view_record', user_id=user.id) }}'">
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.contact_number }}</td>
+                        <td>{{ user.job.job_title }}</td>
+                        <td>{{ user.skill_1 }}</td>
+                        <td>{{ user.skill_2 }}</td>
+                        <td>{{ user.skill_3 }}</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>

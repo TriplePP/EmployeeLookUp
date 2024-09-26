@@ -1,5 +1,3 @@
-from sqlalchemy.ext.declarative import declarative_base
-
 from website import db, login_manager
 from flask_login import UserMixin
 
@@ -12,14 +10,14 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(60))
-    first_name = db.Column(db.String(30))
-    last_name = db.Column(db.String(30))
+    password = db.Column(db.String(60), nullable=False)
+    first_name = db.Column(db.String(30), nullable=False)
+    last_name = db.Column(db.String(30), nullable=False)
     skill_1 = db.Column(db.String(60), nullable=True)
     skill_2 = db.Column(db.String(60), nullable=True)
     skill_3 = db.Column(db.String(60), nullable=True)
     is_admin = db.Column(db.Boolean, default=False)
-    contact_number = db.Column(db.String(60), nullable=True)
+    contact_number = db.Column(db.String(30), nullable=True)
     job_id = db.Column(db.Integer, db.ForeignKey("job.id"), nullable=True)
 
     job = db.relationship("Job")
@@ -31,6 +29,6 @@ class User(db.Model, UserMixin):
 
 class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    job_title = db.Column(db.String(120))
-    department = db.Column(db.String(120))
+    job_title = db.Column(db.String(30))
+    department = db.Column(db.String(30))
     base_salary = db.Column(db.Integer)

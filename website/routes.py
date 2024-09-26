@@ -38,9 +38,7 @@ def register():
             flash("Email already registered", "error")
             return redirect(url_for("main.register"))
 
-        encrypted_password = bcrypt.generate_password_hash(form.password.data).decode(
-            "utf-8"
-        )
+        encrypted_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
         new_user = User(
             first_name=form.first_name.data,
             last_name=form.last_name.data,
@@ -64,7 +62,6 @@ def login():
         if existing_user:
             if check_password_hash(existing_user.password, form.password.data):
                 login_user(existing_user)
-                flash("You have successfully logged in", category="success")
                 return redirect(url_for("main.home"))
             else:
                 flash("Incorrect password", category="error")
@@ -120,9 +117,9 @@ def search_users():
             # Converting the skills to empty strings means the __contains__ method below will still return true when no value is entered
             # This allows the user to leave empty fields in the search
             if (
-                user.__str__().__contains__(skill_1)
-                and user.__str__().__contains__(skill_2)
-                and user.__str__().__contains__(skill_3)
+                    user.__str__().__contains__(skill_1)
+                    and user.__str__().__contains__(skill_2)
+                    and user.__str__().__contains__(skill_3)
             ):
                 filtered_users.append(user)
         if filtered_users.__len__() == 0:
@@ -151,7 +148,7 @@ def view_record(user_id: int):
         form=form,
     )
 
-
+# function to update User record with input from HTML form on the home page
 def update_user(user):
     user_fields = [
         "first_name",
