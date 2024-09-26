@@ -22,7 +22,7 @@ Password = password
 On the ViewUsers page you can select which user you would like to edit by clicking on the user.
 You can then edit user details or permanently delete a user record.
 
-On the SeachUsers page you can search all users by their skills. Enter 1 or more skills.
+On the SearchUsers page you can search all users by their skills. Enter 1 or more skills.
 Note: The more skills you enter the less likely you will get a user matching all those skills. 
 
 To run unit tests
