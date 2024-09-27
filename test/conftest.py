@@ -9,7 +9,7 @@ from website import create_app, db
 def app():
     flask_app = create_app(config_class=TestConfig)
 
-    yield flask_app  # Yield the app for the test
+    yield flask_app  
 
 
 
@@ -43,12 +43,11 @@ def init_database(app):
         test_job = Job(job_title="test tile", department="test department", base_salary=70000)
         db.session.add(test_job)
         db.session.commit()
-        yield db  # This is where the testing happens!
+        yield db  
 
-        # Drop the database and the tables
         db.drop_all()
 
-# We to create a user and log them in for home page to function correctly
+# We need to create a user and log them in for home page to function correctly
 def login_user(test_client):
     return test_client.post('/login', data=dict(
         email='admin@example.com',
